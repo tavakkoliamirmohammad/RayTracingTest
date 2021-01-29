@@ -5,7 +5,8 @@
 #include <glm/glm.hpp>
 
 void load_model(std::string path, std::vector<glm::vec3> &vertices, std::vector<glm::vec3> &normals,
-                std::vector<glm::vec2> &uvs) {
+                std::vector<glm::vec2> &uvs, std::vector<glm::vec3> &diffuse, std::vector<glm::vec3> &ambient,
+                std::vector<glm::vec3> &specular) {
     // Initialize Loader
     objl::Loader Loader;
 
@@ -52,6 +53,10 @@ void load_model(std::string path, std::vector<glm::vec3> &vertices, std::vector<
                 vertices.emplace_back(vertex.Position.X, vertex.Position.Y, vertex.Position.Z);
                 normals.emplace_back(vertex.Normal.X, vertex.Normal.Y, vertex.Normal.Z);
                 uvs.emplace_back(vertex.TextureCoordinate.X, vertex.TextureCoordinate.Y);
+                auto material = curMesh.MeshMaterial;
+                diffuse.emplace_back(material.Kd.X, material.Kd.Y, material.Kd.Z);
+                ambient.emplace_back(material.Ka.X, material.Ka.Y, material.Ka.Z);
+                specular.emplace_back(material.Ks.X, material.Ks.Y, material.Ks.Z);
             }
 
             // Print Material

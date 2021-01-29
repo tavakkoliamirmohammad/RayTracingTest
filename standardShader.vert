@@ -4,6 +4,9 @@
 layout(location = 0) in vec3 vertexPosition_modelspace;
 layout(location = 1) in vec2 vertexUV;
 layout(location = 2) in vec3 vertexNormal_modelspace;
+layout(location = 3) in vec3 vertexDiffuse;
+layout(location = 4) in vec3 vertexAmbient;
+layout(location = 5) in vec3 vertexSpecular;
 
 // Output data ; will be interpolated for each fragment.
 out vec2 UV;
@@ -11,6 +14,10 @@ out vec3 Position_worldspace;
 out vec3 Normal_cameraspace;
 out vec3 EyeDirection_cameraspace;
 out vec3 LightDirection_cameraspace;
+out vec3 diffuse_color;
+out vec3 ambient_color;
+out vec3 specular_color;
+
 
 // Values that stay constant for the whole mesh.
 uniform mat4 MVP;
@@ -40,5 +47,9 @@ void main(){
 	
 	// UV of the vertex. No special space for this one.
 	UV = vertexUV;
+
+	diffuse_color = vertexDiffuse;
+	ambient_color = vertexAmbient;
+	specular_color = vertexSpecular;
 }
 

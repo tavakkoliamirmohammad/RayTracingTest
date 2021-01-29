@@ -12,7 +12,10 @@
 std::vector<glm::vec3> vertices;
 std::vector<glm::vec2> uvs;
 std::vector<glm::vec3> normals;
-GLuint vertexbuffer, uvbuffer, normalbuffer, programID, MatrixID, ViewMatrixID, ModelMatrixID, LightID, TextureID;
+std::vector<glm::vec3> diffuse;
+std::vector<glm::vec3> ambient;
+std::vector<glm::vec3> specular;
+GLuint vertexbuffer, uvbuffer, normalbuffer, diffuseBuffer, ambientBuffer, specularBuffer, programID, MatrixID, ViewMatrixID, ModelMatrixID, LightID, TextureID;
 
 
 void render() {
@@ -71,6 +74,42 @@ void render() {
             (void *) 0                          // array buffer offset
     );
 
+    // 4th attribute buffer : diffuse
+    glEnableVertexAttribArray(3);
+    glBindBuffer(GL_ARRAY_BUFFER, diffuseBuffer);
+    glVertexAttribPointer(
+            3,                                // attribute
+            3,                                // size
+            GL_FLOAT,                         // type
+            GL_FALSE,                         // normalized?
+            0,                                // stride
+            (void *) 0                          // array buffer offset
+    );
+
+    // 5th attribute buffer : ambient
+    glEnableVertexAttribArray(4);
+    glBindBuffer(GL_ARRAY_BUFFER, ambientBuffer);
+    glVertexAttribPointer(
+            4,                                // attribute
+            3,                                // size
+            GL_FLOAT,                         // type
+            GL_FALSE,                         // normalized?
+            0,                                // stride
+            (void *) 0                          // array buffer offset
+    );
+
+    // 5th attribute buffer : specular
+    glEnableVertexAttribArray(5);
+    glBindBuffer(GL_ARRAY_BUFFER, specularBuffer);
+    glVertexAttribPointer(
+            5,                                // attribute
+            3,                                // size
+            GL_FLOAT,                         // type
+            GL_FALSE,                         // normalized?
+            0,                                // stride
+            (void *) 0                          // array buffer offset
+    );
+
     // Draw the triangles !
     glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
@@ -108,7 +147,7 @@ void init() {
     ModelMatrixID = glGetUniformLocation(programID, "M");
 
     TextureID = glGetUniformLocation(programID, "myTextureSampler");
-    load_model("car.obj", vertices, normals, uvs);
+    load_model("shuttle.obj", vertices, normals, uvs, diffuse, ambient, specular);
 
     // Load it into a VBO
 
@@ -123,6 +162,18 @@ void init() {
     glGenBuffers(1, &normalbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
     glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
+
+    glGenBuffers(1, &diffuseBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, diffuseBuffer);
+    glBufferData(GL_ARRAY_BUFFER, diffuse.size() * sizeof(glm::vec3), &diffuse[0], GL_STATIC_DRAW);
+
+    glGenBuffers(1, &ambientBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, ambientBuffer);
+    glBufferData(GL_ARRAY_BUFFER, ambient.size() * sizeof(glm::vec3), &ambient[0], GL_STATIC_DRAW);
+
+    glGenBuffers(1, &specularBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, specularBuffer);
+    glBufferData(GL_ARRAY_BUFFER, specular.size() * sizeof(glm::vec3), &specular[0], GL_STATIC_DRAW);
 
     glUseProgram(programID);
     LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
