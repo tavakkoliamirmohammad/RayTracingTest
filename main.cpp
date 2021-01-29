@@ -3,7 +3,7 @@
 #include <GL/glut.h>
 #include <glm/glm.hpp>
 #include <vector>
-#include "objLoader.h"
+#include "load_model.h"
 #include "shader.h"
 #include "texture.h"
 #include "matrix_transform.h"
@@ -103,10 +103,6 @@ void init() {
     // Cull triangles which normal is not towards the camera
     glEnable(GL_CULL_FACE);
 
-    GLuint VertexArrayID;
-    glGenVertexArrays(1, &VertexArrayID);
-    glBindVertexArray(VertexArrayID);
-
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("standardShader.vert", "standardShader.frag");
 
@@ -122,7 +118,7 @@ void init() {
     TextureID = glGetUniformLocation(programID, "myTextureSampler");
 
 
-    bool res = loadOBJ("car.obj", vertices, uvs, normals);
+    load_model("suzanne.obj");
 
     // Load it into a VBO
 
@@ -138,7 +134,6 @@ void init() {
     glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
     glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
 
-    // Get a handle for our "LightPosition" uniform
     glUseProgram(programID);
     LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
 

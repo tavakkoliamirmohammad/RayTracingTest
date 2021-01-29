@@ -3,3 +3,5 @@ cmake-build-debug
 *.mtl
 *.DDS
 *.out
+*.txt
+.idea

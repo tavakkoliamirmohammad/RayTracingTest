@@ -102,7 +102,6 @@ void computeMatricesFromInputs() {
 
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
     ProjectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
-    cout << position[0] << position[1] << position[2] << endl;
     // Camera matrix
     ViewMatrix = glm::lookAt(
             position,           // Camera is here
