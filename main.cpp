@@ -15,7 +15,8 @@ std::vector<glm::vec3> normals;
 std::vector<glm::vec3> diffuse;
 std::vector<glm::vec3> ambient;
 std::vector<glm::vec3> specular;
-GLuint vertexbuffer, uvbuffer, normalbuffer, diffuseBuffer, ambientBuffer, specularBuffer, programID, MatrixID, ViewMatrixID, ModelMatrixID, LightID, TextureID;
+std::vector<unsigned int> indices;
+GLuint vertexbuffer, uvbuffer, normalbuffer, diffuseBuffer, ambientBuffer, specularBuffer, indexBuffer, programID, MatrixID, ViewMatrixID, ModelMatrixID, LightID, TextureID;
 
 
 void render() {
@@ -109,13 +110,16 @@ void render() {
             0,                                // stride
             (void *) 0                          // array buffer offset
     );
-
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
     // Draw the triangles !
-    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
+    glDisableVertexAttribArray(3);
+    glDisableVertexAttribArray(4);
+    glDisableVertexAttribArray(5);
 
     glutSwapBuffers();
 }
@@ -138,6 +142,8 @@ void init() {
     // Cull triangles which normal is not towards the camera
     glEnable(GL_CULL_FACE);
 
+    glEnableClientState(GL_VERTEX_ARRAY);
+
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("standardShader.vert", "standardShader.frag");
 
@@ -147,7 +153,7 @@ void init() {
     ModelMatrixID = glGetUniformLocation(programID, "M");
 
     TextureID = glGetUniformLocation(programID, "myTextureSampler");
-    load_model("shuttle.obj", vertices, normals, uvs, diffuse, ambient, specular);
+    load_model("car.obj", vertices, normals, uvs, diffuse, ambient, specular, indices);
 
     // Load it into a VBO
 
@@ -158,6 +164,12 @@ void init() {
     glGenBuffers(1, &uvbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
     glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
+
+    glGenBuffers(1, &indexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, indexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+    std::cout << indices.size() << std::endl;
 
     glGenBuffers(1, &normalbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
