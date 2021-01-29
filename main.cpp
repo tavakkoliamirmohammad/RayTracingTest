@@ -12,7 +12,7 @@
 std::vector<glm::vec3> vertices;
 std::vector<glm::vec2> uvs;
 std::vector<glm::vec3> normals;
-GLuint vertexbuffer, uvbuffer, normalbuffer, programID, MatrixID, ViewMatrixID, ModelMatrixID, Texture, TextureID, LightID;
+GLuint vertexbuffer, uvbuffer, normalbuffer, programID, MatrixID, ViewMatrixID, ModelMatrixID, LightID;
 
 
 void render() {
@@ -34,10 +34,6 @@ void render() {
 
     glm::vec3 lightPos = glm::vec3(4, 4, 4);
     glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Texture);
-    glUniform1i(TextureID, 0);
 
     // 1rst attribute buffer : vertices
     glEnableVertexAttribArray(0);
@@ -111,14 +107,8 @@ void init() {
     ViewMatrixID = glGetUniformLocation(programID, "V");
     ModelMatrixID = glGetUniformLocation(programID, "M");
 
-    // Load the texture
-    Texture = loadDDS("uvmap.DDS");
 
-    // Get a handle for our "myTextureSampler" uniform
-    TextureID = glGetUniformLocation(programID, "myTextureSampler");
-
-
-    load_model("suzanne.obj");
+    load_model("car.obj",vertices, normals, uvs);
 
     // Load it into a VBO
 
