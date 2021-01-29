@@ -52,8 +52,6 @@ void load_model(std::string path, std::vector<glm::vec3> &vertices, std::vector<
                 vertices.emplace_back(vertex.Position.X, vertex.Position.Y, vertex.Position.Z);
                 normals.emplace_back(vertex.Normal.X, vertex.Normal.Y, vertex.Normal.Z);
                 uvs.emplace_back(vertex.TextureCoordinate.X, vertex.TextureCoordinate.Y);
-                file << "T" << j / 3 << ": " << curMesh.Indices[j] << ", " << curMesh.Indices[j + 1] << ", "
-                     << curMesh.Indices[j + 2] << "\n";
             }
 
             // Print Material
