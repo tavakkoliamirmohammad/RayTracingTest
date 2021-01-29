@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/rayTracing.dir/main.cpp.o CMakeFiles/rayTracing.dir/objLoader.cpp.o CMakeFiles/rayTracing.dir/shader.cpp.o CMakeFiles/rayTracing.dir/texture.cpp.o  -o rayTracing 
+/usr/bin/c++  -g   CMakeFiles/rayTracing.dir/main.cpp.o CMakeFiles/rayTracing.dir/objLoader.cpp.o CMakeFiles/rayTracing.dir/shader.cpp.o CMakeFiles/rayTracing.dir/texture.cpp.o CMakeFiles/rayTracing.dir/matrix_transform.cpp.o  -o rayTracing 

@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/amir/projects/rayTracing/main.cpp" "/home/amir/projects/rayTracing/cmake-build-debug/CMakeFiles/rayTracing.dir/main.cpp.o"
+  "/home/amir/projects/rayTracing/matrix_transform.cpp" "/home/amir/projects/rayTracing/cmake-build-debug/CMakeFiles/rayTracing.dir/matrix_transform.cpp.o"
   "/home/amir/projects/rayTracing/objLoader.cpp" "/home/amir/projects/rayTracing/cmake-build-debug/CMakeFiles/rayTracing.dir/objLoader.cpp.o"
   "/home/amir/projects/rayTracing/shader.cpp" "/home/amir/projects/rayTracing/cmake-build-debug/CMakeFiles/rayTracing.dir/shader.cpp.o"
   "/home/amir/projects/rayTracing/texture.cpp" "/home/amir/projects/rayTracing/cmake-build-debug/CMakeFiles/rayTracing.dir/texture.cpp.o"

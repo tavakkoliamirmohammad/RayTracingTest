@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/rayTracing.dir/main.cpp.o"
+  "CMakeFiles/rayTracing.dir/matrix_transform.cpp.o"
   "CMakeFiles/rayTracing.dir/objLoader.cpp.o"
   "CMakeFiles/rayTracing.dir/shader.cpp.o"
   "CMakeFiles/rayTracing.dir/texture.cpp.o"

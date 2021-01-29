@@ -3,4 +3,4 @@ project(rayTracing)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(rayTracing main.cpp objLoader.cpp objLoader.h shader.cpp shader.h texture.cpp texture.h)
+add_executable(rayTracing main.cpp objLoader.cpp objLoader.h shader.cpp shader.h texture.cpp texture.h matrix_transform.cpp matrix_transform.h)

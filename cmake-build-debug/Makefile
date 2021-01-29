@@ -170,6 +170,33 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rayTracing.dir/build.make CMakeFiles/rayTracing.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+matrix_transform.o: matrix_transform.cpp.o
+
+.PHONY : matrix_transform.o
+
+# target to build an object file
+matrix_transform.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rayTracing.dir/build.make CMakeFiles/rayTracing.dir/matrix_transform.cpp.o
+.PHONY : matrix_transform.cpp.o
+
+matrix_transform.i: matrix_transform.cpp.i
+
+.PHONY : matrix_transform.i
+
+# target to preprocess a source file
+matrix_transform.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rayTracing.dir/build.make CMakeFiles/rayTracing.dir/matrix_transform.cpp.i
+.PHONY : matrix_transform.cpp.i
+
+matrix_transform.s: matrix_transform.cpp.s
+
+.PHONY : matrix_transform.s
+
+# target to generate assembly for a file
+matrix_transform.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rayTracing.dir/build.make CMakeFiles/rayTracing.dir/matrix_transform.cpp.s
+.PHONY : matrix_transform.cpp.s
+
 objLoader.o: objLoader.cpp.o
 
 .PHONY : objLoader.o
@@ -263,6 +290,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... matrix_transform.o"
+	@echo "... matrix_transform.i"
+	@echo "... matrix_transform.s"
 	@echo "... objLoader.o"
 	@echo "... objLoader.i"
 	@echo "... objLoader.s"

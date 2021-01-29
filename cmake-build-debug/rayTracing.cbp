@@ -85,6 +85,12 @@
 		<Unit filename="/home/amir/projects/rayTracing/main.cpp">
 			<Option target="rayTracing"/>
 		</Unit>
+		<Unit filename="/home/amir/projects/rayTracing/matrix_transform.cpp">
+			<Option target="rayTracing"/>
+		</Unit>
+		<Unit filename="/home/amir/projects/rayTracing/matrix_transform.h">
+			<Option target="rayTracing"/>
+		</Unit>
 		<Unit filename="/home/amir/projects/rayTracing/objLoader.cpp">
 			<Option target="rayTracing"/>
 		</Unit>

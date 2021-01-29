@@ -1,5 +1,6 @@
 #ifndef RAYTRACING_TEXTURE_H
 #define RAYTRACING_TEXTURE_H
+#include <GL/glew.h>
 
 #include <GL/glut.h>
 
