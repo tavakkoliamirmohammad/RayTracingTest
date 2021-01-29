@@ -122,7 +122,7 @@ void init() {
     TextureID = glGetUniformLocation(programID, "myTextureSampler");
 
 
-    bool res = loadOBJ("suzanne.obj", vertices, uvs, normals);
+    bool res = loadOBJ("car.obj", vertices, uvs, normals);
 
     // Load it into a VBO
 
