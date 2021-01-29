@@ -1,0 +1,3 @@
+/home/amir/projects/rayTracing/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/amir/projects/rayTracing/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/amir/projects/rayTracing/cmake-build-debug/CMakeFiles/rayTracing.dir
