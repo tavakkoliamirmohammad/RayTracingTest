@@ -6,7 +6,7 @@
 
 void load_model(std::string path, std::vector<glm::vec3> &vertices, std::vector<glm::vec3> &normals,
                 std::vector<glm::vec2> &uvs, std::vector<glm::vec3> &diffuse, std::vector<glm::vec3> &ambient,
-                std::vector<glm::vec3> &specular, std::vector<unsigned int> &indices) {
+                std::vector<glm::vec3> &specular) {
     // Initialize Loader
     objl::Loader Loader;
 
@@ -34,14 +34,6 @@ void load_model(std::string path, std::vector<glm::vec3> &vertices, std::vector<
             // Go through each vertex and print its number,
             //  position, normal, and texture coordinate
             for (int j = 0; j < curMesh.Vertices.size(); j++) {
-                auto vertex = curMesh.Vertices[j];
-                vertices.emplace_back(vertex.Position.X, vertex.Position.Y, vertex.Position.Z);
-                normals.emplace_back(vertex.Normal.X, vertex.Normal.Y, vertex.Normal.Z);
-                uvs.emplace_back(vertex.TextureCoordinate.X, vertex.TextureCoordinate.Y);
-                auto material = curMesh.MeshMaterial;
-                diffuse.emplace_back(material.Kd.X, material.Kd.Y, material.Kd.Z);
-                ambient.emplace_back(material.Ka.X, material.Ka.Y, material.Ka.Z);
-                specular.emplace_back(material.Ks.X, material.Ks.Y, material.Ks.Z);
                 file << "V" << j << ": " <<
                      "P(" << curMesh.Vertices[j].Position.X << ", " << curMesh.Vertices[j].Position.Y << ", "
                      << curMesh.Vertices[j].Position.Z << ") " <<
@@ -57,7 +49,14 @@ void load_model(std::string path, std::vector<glm::vec3> &vertices, std::vector<
             // Go through every 3rd index and print the
             //	triangle that these indices represent
             for (int j = 0; j < curMesh.Indices.size(); j += 1) {
-              indices.push_back(curMesh.Indices[j]);
+                auto vertex = curMesh.Vertices[curMesh.Indices[j]];
+                vertices.emplace_back(vertex.Position.X, vertex.Position.Y, vertex.Position.Z);
+                normals.emplace_back(vertex.Normal.X, vertex.Normal.Y, vertex.Normal.Z);
+                uvs.emplace_back(vertex.TextureCoordinate.X, vertex.TextureCoordinate.Y);
+                auto material = curMesh.MeshMaterial;
+                diffuse.emplace_back(material.Kd.X, material.Kd.Y, material.Kd.Z);
+                ambient.emplace_back(material.Ka.X, material.Ka.Y, material.Ka.Z);
+                specular.emplace_back(material.Ks.X, material.Ks.Y, material.Ks.Z);
             }
 
             // Print Material

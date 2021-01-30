@@ -1,7 +1,9 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/glut.h>
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include <vector>
 #include "load_model.h"
 #include "shader.h"
@@ -15,9 +17,23 @@ std::vector<glm::vec3> normals;
 std::vector<glm::vec3> diffuse;
 std::vector<glm::vec3> ambient;
 std::vector<glm::vec3> specular;
-std::vector<unsigned int> indices;
-GLuint vertexbuffer, uvbuffer, normalbuffer, diffuseBuffer, ambientBuffer, specularBuffer, indexBuffer, programID, MatrixID, ViewMatrixID, ModelMatrixID, LightID, TextureID;
 
+GLint vertex_pos_texture;
+unsigned const data_texture_width = 2048;
+unsigned int row;
+
+GLuint vertex_rows_uniform, data_texture_width_uniform, triangle_number_uniform;
+
+GLuint vertexbuffer, uvbuffer, normalbuffer, diffuseBuffer, ambientBuffer, specularBuffer, programID, MatrixID, ViewMatrixID, ModelMatrixID, LightID, TextureID;
+
+int new_data_texture() {
+    GLuint tex;
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    return tex;
+}
 
 void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -39,6 +55,14 @@ void render() {
     glm::vec3 lightPos = glm::vec3(4, 4, 4);
     glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
     glUniform1i(TextureID, 0);
+
+    glUniform1i(vertex_rows_uniform, row);
+    glUniform1i(data_texture_width_uniform, data_texture_width);
+    glUniform1i(triangle_number_uniform, vertices.size() / 3);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, vertex_pos_texture);
+
     // 1rst attribute buffer : vertices
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -110,9 +134,20 @@ void render() {
             0,                                // stride
             (void *) 0                          // array buffer offset
     );
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+
     // Draw the triangles !
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL);
+    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+//
+//    ModelMatrix = glm::translate(ModelMatrix, glm::vec3(2.0, 0.0, 0.0));
+//    MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
+//
+//    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+//    glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix[0][0]);
+//
+//    glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+
+
+
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
@@ -120,6 +155,9 @@ void render() {
     glDisableVertexAttribArray(3);
     glDisableVertexAttribArray(4);
     glDisableVertexAttribArray(5);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
 
     glutSwapBuffers();
 }
@@ -144,6 +182,7 @@ void init() {
 
     glEnableClientState(GL_VERTEX_ARRAY);
 
+
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("standardShader.vert", "standardShader.frag");
 
@@ -153,7 +192,9 @@ void init() {
     ModelMatrixID = glGetUniformLocation(programID, "M");
 
     TextureID = glGetUniformLocation(programID, "myTextureSampler");
-    load_model("car.obj", vertices, normals, uvs, diffuse, ambient, specular, indices);
+    load_model("sphere.obj", vertices, normals, uvs, diffuse, ambient, specular);
+
+
 
     // Load it into a VBO
 
@@ -164,12 +205,6 @@ void init() {
     glGenBuffers(1, &uvbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
     glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
-
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, indexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
-
-    std::cout << indices.size() << std::endl;
 
     glGenBuffers(1, &normalbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
@@ -187,8 +222,18 @@ void init() {
     glBindBuffer(GL_ARRAY_BUFFER, specularBuffer);
     glBufferData(GL_ARRAY_BUFFER, specular.size() * sizeof(glm::vec3), &specular[0], GL_STATIC_DRAW);
 
+    row = vertices.size() / data_texture_width + 1;
+    vertex_pos_texture = new_data_texture();
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, data_texture_width, row, 0, GL_RGB, GL_FLOAT, &vertices[0]);
+
+
     glUseProgram(programID);
     LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
+
+    vertex_rows_uniform = glGetUniformLocation(programID, "vertex_rows_uniform");
+    data_texture_width_uniform = glGetUniformLocation(programID, "data_texture_width_uniform");
+    triangle_number_uniform = glGetUniformLocation(programID, "triangle_number_uniform");
+
 
 }
 
